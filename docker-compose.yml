@@ -1,14 +1,14 @@
 services:
 
-  mysql:
-    image: mysql:latest
+  postgres:
+    image: postgres:alpine
     ports:
-      - 3306:3306
+      - 5432:5432
     volumes:
-      - /tmp/data/:/var/lib/mysql
-    restart: always
+      - /tmp/data:/var/lib/postgresql/data
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
     networks:
       - java-app
 
@@ -19,9 +19,9 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      - postgres
     environment:
-      - APP_SERVER=mysql
+      - APP_SERVER=postgres
     networks:
       - java-app
 
