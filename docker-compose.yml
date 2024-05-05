@@ -1,0 +1,29 @@
+services:
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - /tmp/data/:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - java-app
+
+  app:
+    build:
+      context: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      - APP_SERVER=mysql
+    networks:
+      - java-app
+
+networks:
+  java-app:
